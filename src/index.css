@@ -1,12 +1,69 @@
-body {
-  margin: 0;
-  min-height: 100vh;
+html {
+  font-size: 8px;
 }
-.letter {
-  border: 3px solid black;
-  background-color: none;
-  color: black;
-  aspect-ratio: 1/1;
+@media (min-width: 481px) {
+  html {
+    font-size: 10px;
+  }
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media (min-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+}
+/* @media (min-width: 1200px) {
+  html {
+    font-size: 16px;
+  }
+} */
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  /* background-image: url(./assets/forest-cemetery-pumpkin-horror-wallpaper-preview.jpg);
+ background-repeat: no-repeat;
+ background-size: 100%;
+ height: 100%; */
+}
+.img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* start general layout */
+.mainDiv {
+  max-width: 800px;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+.stateText {
+  font-size: 2rem;
+  text-transform: capitalize;
+  margin: 20px 0;
+  color: red;
+}
+.hangmanDraw {
+  flex: 1;
+  position: relative;
+  background-color: blue;
+}
+.button {
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -16,20 +73,227 @@ body {
   -moz-border-radius: 0.5rem;
   -ms-border-radius: 0.5rem;
   -o-border-radius: 0.5rem;
+  margin: 20px 0;
+  color: white;
+  background-color: #fd9f13;
+  border: 2px solid white;
+  padding: 10px 20px;
 }
-.letter:hover:not(:disabled),
-.letter:focus:not(:disabled) {
-  background-color: aqua;
+.keyboard {
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 5rem;
+  width: fit-content;
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+@media (min-width: 501px) {
+  .mainDiv {
+    padding-top: 3rem;
+    height: 80vh;
+  }
+}
+/* end general layout */
+/* start body part */
+.head {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  right: -5px;
+}
+.body {
+  width: 10px;
+  height: 120px;
+  background-color: blue;
+  position: absolute;
+  top: 90px;
+  right: 10px;
+}
+.rightHand {
+  width: 10px;
+  height: 60px;
+  background-color: black;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  rotate: 45deg;
+  transform-origin: bottom right;
+}
+.leftHand {
+  width: 10px;
+  height: 60px;
+  background-color: black;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  rotate: -45deg;
+  transform-origin: bottom left;
+}
+.rightLeg {
+  width: 10px;
+  height: 60px;
+  background-color: black;
+  position: absolute;
+  top: 145px;
+  right: 20px;
+  rotate: 135deg;
+  transform-origin: bottom right;
+}
+.leftLeg {
+  width: 10px;
+  height: 60px;
+  background-color: black;
+  position: absolute;
+  top: 145px;
+  right: 0;
+  rotate: -135deg;
+  transform-origin: bottom left;
+}
+@media (min-width: 501px) {
+  .head {
+    width: 50px;
+    height: 50px;
+    right: -20px;
+  }
+  .body {
+    height: 150px;
+    top: 100px;
+    right: 0;
+  }
+  .rightHand {
+    height: 80px;
+    top: 100px;
+    right: 0;
+  }
+  .leftHand {
+    height: 80px;
+    top: 100px;
+    right: 0;
+  }
+  .rightLeg {
+    height: 80px;
+    top: 165px;
+    right: 10px;
+  }
+  .leftLeg {
+    height: 80px;
+    top: 165px;
+    right: -10px;
+  }
+}
+/* end body part */
+/* start hangman draw part */
+.ropePart {
+  width: 10px;
+  height: 50px;
+  background-color: black;
+  margin-left: 120px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+.topPart {
+  width: 160px;
+  height: 10px;
+  background-color: black;
+  right: 120px;
+}
+.heightPart {
+  width: 10px;
+  height: 300px;
+  background-color: black;
+  margin-right: 150px;
+}
+.bottomPart {
+  width: 170px;
+  height: 10px;
+  background-color: black;
+}
+@media (min-width: 501px) {
+  .ropePart {
+    right: 0;
+  }
+  .topPart {
+    width: 200px;
+  }
+  .heightPart {
+    height: 350px;
+    margin-right: 190px;
+  }
+  .bottomPart {
+    width: 200px;
+  }
+}
+/* end hangman draw part */
+/* start word to guess part */
+.guessedWordContainer {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.letterCont {
+  border-bottom: 5px solid black;
+}
+.letter {
+font-size: 4rem;font-weight: bold;font-family: monospace;text-transform: uppercase;
+}
+/* end word to guess part */
+/* start keyboard part */
+.line { 
+  text-align: center;
+}
+.line button {
+  color: white;
+  width:8vw;
+  aspect-ratio: 1/1;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 1.5px;
+  background-color: #fd9f13;
+  border: 2px solid white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .75rem;
+  -webkit-border-radius: .75rem;
+  -moz-border-radius: .75rem;
+  -ms-border-radius: .75rem;
+  -o-border-radius: .75rem;
+}
+@media (min-width: 481px) {
+  .line button {
+    font-weight: 600;
+    width:3rem;
+}}
+.line button:hover:not(:disabled),
+.line button:focus:not(:disabled),
+.button:hover {
+  background-color: #f06305;
   border-color: white;
   color: white;
 }
-.letter.active {
-  background-color: rgba(0, 255, 255, 0.9);
+.line button.active {
+  background-color: #ff6600;
   border-color: white;
   color: white;
   cursor: default;
 }
-.letter.inactive {
+.line button.inactive {
   opacity: 0.3;
   cursor: default;
 }
+
+/* end keyboard part */
+

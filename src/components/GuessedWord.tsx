@@ -12,27 +12,13 @@ const GuessedWord: React.FC<guessedWordProps> = ({
   reveal = false,
 }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "1rem",
-        margin: "2rem 0",
-      }}
-    >
+    <div className="guessedWordContainer">
       {chosenWord.split("").map((letter, index) => {
         return (
-          <span
-            key={index}
-            style={{
-              borderBottom: "5px solid black",
-            }}
-          >
+          <span key={index} className="letterCont">
             <span
+              className="letter"
               style={{
-                fontSize: "4rem",
-                fontWeight: "bold",
-                fontFamily: "monospace",
-                textTransform: "uppercase",
                 color:
                   !GuessedLetter.includes(letter) && reveal ? "red" : "black",
                 visibility:

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import GuessedWord from "./components/GuessedWord";
 import HangmanDraw from "./components/HangmanDraw";
-import Keyboard from "./components/Keyboard";
+import Keyboard from "./components/Keyboard/Keyboard";
 import words from "./wordList.json";
+// import {soundplay} from './components/Sound'
+import img2 from "./assets/forest-cemetery-pumpkin-horror-wallpaper-preview (1).jpg";
+import img from "./assets/109093189-hanged-man-on-halloween.jpg.webp";
 
 function getNewWord() {
   const chosenWordIndex = Math.floor(Math.random() * words.length);
@@ -23,14 +26,22 @@ function App() {
     .split("")
     .every((letter) => guessedLetters.includes(letter));
 
-  const guessedLettersHandler = (letter: string) => {
-    if (guessedLetters.includes(letter)) return;
-    setGuessedLetters((prev) => [...prev, letter]);
-  };
-
+  const guessedLettersHandler = useCallback(
+    (letter: string) => {
+      // soundplay()
+      if (guessedLetters.includes(letter)) return;
+      setGuessedLetters((prev) => [...prev, letter]);
+    },
+    [guessedLetters]
+  );
   useEffect(() => {
     const keyPressHandler = (e: KeyboardEvent) => {
       const key = e.key;
+      // if (wordToGuess.includes(key)) {
+      //   soundplay()
+      // } else {
+      //   soundplay()
+      // }
       if (!key.match(/^[a-z]$/)) return;
       e.preventDefault();
       guessedLettersHandler(key);
@@ -41,7 +52,12 @@ function App() {
     return () => {
       document.removeEventListener("keypress", keyPressHandler);
     };
-  }, [guessedLetters]);
+  }, [guessedLetters, guessedLettersHandler]);
+
+  const startAgainHandler = () => {
+    setGuessedLetters([]);
+    setWordToGuess(getNewWord());
+  };
 
   useEffect(() => {
     const keyPressHandler = (e: KeyboardEvent) => {
@@ -60,48 +76,37 @@ function App() {
   }, [guessedLetters]);
 
   return (
-    <div
-      style={{
-        maxWidth: "800px",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        margin: "0 auto",
-        padding: "1rem",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "1.5rem",
-          textTransform: "capitalize",
-          marginBottom: "2rem",
-        }}
-      >
-        {isWinner && "winner! - refresh to try again"}
-        {isLoser && "nice try - refresh to try again"}
-      </div>
-      <HangmanDraw incorrectLettersNumber={incorrectGuessedLetters.length} />
-      <GuessedWord
-        reveal={isLoser || isWinner}
-        GuessedLetter={guessedLetters}
-        chosenWord={wordToGuess}
-      />
-      <div
-        style={{
-          alignSelf: "stretch",
-        }}
-      >
-        <Keyboard
-          disabled={isWinner || isLoser}
-          activeLetters={guessedLetters.filter((letter) =>
-            wordToGuess.includes(letter)
-          )}
-          inactiveLetters={incorrectGuessedLetters}
-          onAddGuessedLetters={guessedLettersHandler}
+    <Fragment>
+      <img className="img" src={img} alt="" />
+      <div className="mainDiv">
+        <p className="stateText">
+          {isWinner && "winner! - refresh to try again"}
+          {isLoser && "nice try - refresh to try again"}
+        </p>
+        <HangmanDraw incorrectLettersNumber={incorrectGuessedLetters.length} />
+        <GuessedWord
+          reveal={isLoser || isWinner}
+          GuessedLetter={guessedLetters}
+          chosenWord={wordToGuess}
         />
+        <div>
+          {isLoser || isWinner ? (
+            <button onClick={startAgainHandler} className="button">
+              try again
+            </button>
+          ) : null}
+
+          <Keyboard
+            disabled={isWinner || isLoser}
+            activeLetters={guessedLetters.filter((letter) =>
+              wordToGuess.includes(letter)
+            )}
+            inactiveLetters={incorrectGuessedLetters}
+            onAddGuessedLetters={guessedLettersHandler}
+          />
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 }
 
